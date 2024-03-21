@@ -24,6 +24,8 @@ import org.apache.logging.log4j.Logger;
 import no.hvl.dat110.middleware.Message;
 import no.hvl.dat110.rpc.interfaces.NodeInterface;
 
+import static java.util.Objects.hash;
+
 public class FileManager {
 	
 	private static final Logger logger = LogManager.getLogger(FileManager.class);
@@ -59,17 +61,22 @@ public class FileManager {
 	public void createReplicaFiles() {
 	 	
 		// set a loop where size = numReplicas
-		
-		// replicate by adding the index to filename
-		
-		// hash the replica
-		
-		// store the hash in the replicafiles array.
+		for(int i = 0; i<numReplicas; i++) {
+
+
+			// replicate by adding the index to filename
+			String newFileName = filename + i;
+			// hash the replica
+			BigInteger hash = Hash.hashOf(newFileName);
+
+			// store the hash in the replicafiles array.
+			replicafiles[i] = hash;
+		}
 	}
 	
     /**
      * 
-     * @param bytesOfFile
+     * @param
      * @throws RemoteException 
      */
     public int distributeReplicastoPeers() throws RemoteException {
@@ -238,7 +245,7 @@ public class FileManager {
 		return sizeOfByte;
 	}
 	/**
-	 * @param size the size to set
+	 * @param sizeOfByte the size to set
 	 */
 	public void setSizeOfByte(String sizeOfByte) {
 		this.sizeOfByte = sizeOfByte;
