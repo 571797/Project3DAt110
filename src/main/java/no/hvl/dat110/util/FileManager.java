@@ -87,12 +87,15 @@ public class FileManager {
 
         int counter = 0;
 
+
+
         // Task1: Given a filename, make replicas and distribute them to all active peers such that: pred < replica <= peer
 
         // Task2: assign a replica as the primary for this file. Hint, see the slide (project 3) on Canvas
 
         // create replicas of the filename
         createReplicaFiles();
+
         // iterate over the replicas
         for (int i = 0; i < replicafiles.length; i++) {
             // for each replica, find its successor (peer/node) by performing findSuccessor(replica)
@@ -106,10 +109,11 @@ public class FileManager {
             else
                 succ.saveFileContent(filename, replicafiles[index], bytesOfFile, false);
 
-
+			// increment counter
+			counter++;
         }
-        // increment counter
-        counter++;
+
+
         return counter;
     }
 
@@ -158,12 +162,13 @@ public class FileManager {
         // Task: Given all the active peers of a file (activeNodesforFile()), find which is holding the primary copy
 
         // iterate over the activeNodesforFile
+		// for each active peer (saved as Message)
+		// use the primaryServer boolean variable contained in the Message class to check if it is the primary or not
+		// return the primary when found (i.e., use Util.getProcessStub to get the stub and return it)
 
-        // for each active peer (saved as Message)
-
-        // use the primaryServer boolean variable contained in the Message class to check if it is the primary or not
-
-        // return the primary when found (i.e., use Util.getProcessStub to get the stub and return it)
+		for (Message message : activeNodesforFile)
+			if(message.isPrimaryServer())
+				return Util.getProcessStub(message.getNodeName(), message.getPort());
 
         return null;
     }
