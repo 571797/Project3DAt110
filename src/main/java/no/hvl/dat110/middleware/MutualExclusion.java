@@ -86,7 +86,6 @@ public class MutualExclusion {
 		
 		return permission;
 	}
-	
 	// multicast message to other processes including self
 	private void multicastMessage(Message message, List<Message> activenodes) throws RemoteException {
 		
